@@ -1,7 +1,7 @@
 'use strict'
 const Botmaster = require('botmaster');
 const watson = require('watson-developer-cloud');
-const cfenv = require('cfenv');
+//const cfenv = require('cfenv');
 const Buttons = require('./buttons')
 const Stickers = require('./stickers')
 const Context = require('./context');
@@ -9,7 +9,10 @@ const Output = require('./output');
 const Input = require('./input');
 const Cloudant = require('./cloudant');
 // get the app environment from Cloud Foundry
-const appEnv = cfenv.getAppEnv();
+//const appEnv = cfenv.getAppEnv();
+require('dotenv').config({
+  silent: true
+});
 const watsonConversation = watson.conversation({
   username: process.env.WATSON_CONVERSATION_USERNAME,
   password: process.env.WATSON_CONVERSATION_PASSWORD,
