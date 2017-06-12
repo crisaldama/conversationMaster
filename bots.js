@@ -8,6 +8,9 @@ const Context = require('./context');
 const Output = require('./output');
 const Input = require('./input');
 const Cloudant = require('./cloudant');
+
+const debug = require('debug')('botmaster:bots');
+
 // get the app environment from Cloud Foundry
 //const appEnv = cfenv.getAppEnv();
 require('dotenv').config({
@@ -70,13 +73,13 @@ botmaster.on('update', (bot, update) => {
   var firstText = "";
   var context = inMemoryContexts[update.sender.id];
   if (inMemoryContexts[update.sender.id]) {
-    if (update.message) {
+    if (update.message && update.message.text) {
       context = Context.setContextToWatson(JSON.parse(JSON.stringify(context)),
         update.message.text);
     }
     else {
       context = Context.setContextToWatson(JSON.parse(JSON.stringify(context)),
-        update.message); 
+        ""); 
     }
   } else {
     const messageForWatson = {
@@ -111,13 +114,17 @@ botmaster.on('update', (bot, update) => {
   }
   setTimeout(function() {
     var input = "";
-    if (update.message.text) {
+    debug("Update Message is:" + JSON.stringify(update.message));
+    if (update.message && update.message.text) {
       input = JSON.stringify(update.message.text);
       //Remove quotation marks
       input = input.substring(1, input.length - 1);
       //Replace \n
       input = input.replace(/\\n/g, " ");
       input = Input.replaceTagsUserInput(input);
+    }
+    else {
+      input = "";
     }
     const messageForWatson = {
       context,
