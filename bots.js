@@ -59,7 +59,8 @@ bots.use(bodyParser.urlencoded({
 const botmasterSettings = {
   botsSettings,
   app: bots,
-    port: appEnv.isLocal ? 3000 : appEnv.port,
+    port: process.env.PORT || 5000,
+    
 };
 const delay = 1200;
 const botmaster = new Botmaster(botmasterSettings);
