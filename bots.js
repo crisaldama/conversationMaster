@@ -16,12 +16,14 @@ const watsonConversation = watson.conversation({
   version: 'v1',
   version_date: '2016-05-19',
 });
-const telegramSettings = {
+
+/*const telegramSettings = {
   credentials: {
     authToken: process.env.TELEGRAM_AUTH_TOKEN,
   },
   webhookEndpoint: process.env.TELEGRAM_WEBHOOKENDPOINT,
-};
+};*/
+
 const messengerSettings = {
   credentials: {
     verifyToken: process.env.MESSENGER_VERIFY_TOKEN,
@@ -36,11 +38,14 @@ const messengerSettings = {
  * communicates with the end user using natural language (from Watson Conversation).
  * If a conversation is properly trained on the system, no more code is required.
  */
-const botsSettings = [{
-  telegram: telegramSettings
-}, {
+const botsSettings = [
+// {
+//   telegram: telegramSettings
+// }, 
+  {
   messenger: messengerSettings
 }];
+
 const express = require('express');
 const bots = express();
 const bodyParser = require('body-parser');
