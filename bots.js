@@ -9,7 +9,7 @@ const Output = require('./output');
 const Input = require('./input');
 const Cloudant = require('./cloudant');
 
-const debug = require('debug')('botmaster:bots');
+//const debug = require('debug')('botmaster:bots');
 
 // get the app environment from Cloud Foundry
 //const appEnv = cfenv.getAppEnv();
@@ -114,7 +114,7 @@ botmaster.on('update', (bot, update) => {
   }
   setTimeout(function() {
     var input = "";
-    debug("Update Message is:" + JSON.stringify(update.message));
+    console.log("Update Message is:" + JSON.stringify(update.message));
     if (update.message && update.message.text) {
       input = JSON.stringify(update.message.text);
       //Remove quotation marks
