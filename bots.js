@@ -60,7 +60,7 @@ const botmasterSettings = {
   botsSettings,
   app: bots,
     port: process.env.PORT || 5000,
-    
+
 };
 const delay = 1200;
 const botmaster = new Botmaster(botmasterSettings);
@@ -70,8 +70,14 @@ botmaster.on('update', (bot, update) => {
   var firstText = "";
   var context = inMemoryContexts[update.sender.id];
   if (inMemoryContexts[update.sender.id]) {
-    context = Context.setContextToWatson(JSON.parse(JSON.stringify(context)),
-      update.message.text);
+    if (update.message) {
+      context = Context.setContextToWatson(JSON.parse(JSON.stringify(context)),
+        update.message.text);
+    }
+    else {
+      context = Context.setContextToWatson(JSON.parse(JSON.stringify(context)),
+        update.message); 
+    }
   } else {
     const messageForWatson = {
       context,
