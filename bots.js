@@ -135,7 +135,7 @@ botmaster.on('update', (bot, update) => {
     };
     //THIS LINE READS THE USER INPUT (USEFUL TO DETERMINE STICKERS ID)
     //bot.sendTextMessageTo(String(JSON.stringify(update.message)),update.sender.id);
-    if (update.message.sticker_id && Stickers.reactToStickers(update.message
+    if (update.message && update.message.sticker_id && Stickers.reactToStickers(update.message
         .sticker_id)) {
       var reaction = Stickers.reactToStickers(update.message.sticker_id);
       //Send is typing status...
