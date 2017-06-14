@@ -41,13 +41,15 @@ module.exports = {
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
 		  	console.log(dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(), dataToInsert.AccountID);
+			
 			sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
-		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(), dataToInsert.AccountID], (err, res) => {
+		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
+		    	dataToInsert.AccountID], (err, res) => {
 		    	if (err) {
-    				console.log(err.stack)
+    				console.log("Error inserting data" + err.stack);
   				} else {
-    				console.log(res.rows[0])
+    				console.log("Successful insert for " + res.rows[0] + " rows");
   				}
 		    });
 
