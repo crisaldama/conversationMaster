@@ -40,7 +40,7 @@ module.exports = {
 			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
 							createdDate: new Date(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
-		  	console.log("Inserting new case with data: (" + dataToInsert.subject, + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
+		  	console.log("Inserting new case with data: (" + dataToInsert.subject + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID + ")");
 			
 			var queryCount = 0;
