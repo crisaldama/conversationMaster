@@ -15,6 +15,7 @@ module.exports = {
 
 		var dbString = process.env.DATABASE_URL || 'postgres://localhost:5432/salesforce';
 
+		console.log ("DBSTRING is" + dbString);
 		var sharedPgClient;
 
 		pg.connect(dbString, function(err,client){
