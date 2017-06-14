@@ -41,7 +41,7 @@ module.exports = {
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
 		  	console.log(dataToInsert);
 			sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
-		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
+		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(), dataToInsert.accountID], (err, res) => {
 		    	if (err) {
     				console.log(err.stack)
