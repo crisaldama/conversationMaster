@@ -21,6 +21,7 @@ module.exports = {
       			console.log(error);
     	}); 
 		
+		sharedPgClient.connect(function (err) {
 		// sharedPgClient.connect();
 		// , function(err,client){
 		//     if(err){
@@ -66,7 +67,7 @@ module.exports = {
 		else {
 			console.log("No connection available, check your db url");
 		}
-
+});
 	}
 }
 
