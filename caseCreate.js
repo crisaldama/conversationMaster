@@ -27,11 +27,11 @@ module.exports = {
 		});
 
 		if (sharedPgClient) {
-			const data = {subject: process.env.SFORCE_CASE_SUBJECT, 
+			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
 							createdDate: process.env.SFORCE_CASE_DATE || now(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
-			sharedPgClient.query('INSERT INTO case(Subject, createdDate, AccountID) values($1, $2)',
-		    [data.subject, data.createdDate, data.accountID]);
+			sharedPgClient.query('INSERT INTO case(Subject, createdDate, AccountID) values($1, $2, $3)',
+		    [dataToInsert.subject, dataToInsert.createdDate, dataToInsert.accountID]);
 		    done();
 		}
 
