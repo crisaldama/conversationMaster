@@ -51,12 +51,13 @@ module.exports = {
   				} else {
     				console.log("Successful insert for " + res.rows[0] + " rows");
   				}
+				console.log("Releasing Postgres connection");
+		    	sharedPgClient.end();
 		    });
 
 		    
 
-		    console.log("Releasing Postgres connection");
-		    sharedPgClient.end();
+		    
 		}
 		else {
 			console.log("No connection available, check your db url");
