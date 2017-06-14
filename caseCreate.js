@@ -43,6 +43,9 @@ module.exports = {
 		    console.log("Releasing Postgres connection");
 		    done();
 		}
+		else {
+			console.log("No connection available, check your db url");
+		}
 
 	}
 }
