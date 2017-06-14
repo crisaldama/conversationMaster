@@ -16,20 +16,24 @@ module.exports = {
 		var dbString = process.env.DATABASE_URL || 'postgres://localhost:5432/salesforce';
 
 		console.log ("DBSTRING is" + dbString);
-		var sharedPgClient;
-
-		pg.connect(dbString, function(err,client){
-		    if(err){
-		        console.error("PG Connection Error")
-		        return;
-		    }
-		    console.log("Got  Postgres connection");
-		    sharedPgClient = client;
-		    /* Error handling*/
-		    sharedPgClient.on('error', function(error) {
+		var sharedPgClient = new pg.Client(dbString);
+    	sharedPgClient.on('error', function(error) {
       			console.log(error);
-    		});    
-		});
+    	}); 
+		
+		// sharedPgClient.connect();
+		// , function(err,client){
+		//     if(err){
+		//         console.error("PG Connection Error:" + err)
+		//         return;
+		//     }
+		//     console.log("Got  Postgres connection");
+		//     sharedPgClient = client;
+		//     /* Error handling*/
+		//     sharedPgClient.on('error', function(error) {
+  //     			console.log(error);
+  //   		});    
+		// });
 
 		if (sharedPgClient) {
 			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
