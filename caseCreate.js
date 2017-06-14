@@ -22,7 +22,7 @@ module.exports = {
 		        console.error("PG Connection Error")
 		        return;
 		    }
-		    console.log("Connected to Postgres");
+		    console.log("Got  Postgres connection");
 		    sharedPgClient = client;
 		});
 
@@ -32,6 +32,12 @@ module.exports = {
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
 			sharedPgClient.query('INSERT INTO case(Subject, createdDate, AccountID) values($1, $2, $3)',
 		    [dataToInsert.subject, dataToInsert.createdDate, dataToInsert.accountID]);
+
+		    sharedPgClient.on('error', function(error) {
+      			console.log(error);
+    		});    
+
+		    console.log("Releasing Postgres connection");
 		    done();
 		}
 
