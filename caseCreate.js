@@ -46,7 +46,7 @@ module.exports = {
 		    
 
 		    console.log("Releasing Postgres connection");
-		    done();
+		    sharedPgClient.end();
 		}
 		else {
 			console.log("No connection available, check your db url");
