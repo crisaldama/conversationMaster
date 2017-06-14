@@ -59,7 +59,7 @@ module.exports = {
                		console.log("Added case " + result.rows[0]);
            		} 
            		if (queryCount === 0) {
-             		sharedPgClient.end();
+             		//sharedPgClient.end();
              	}
         	});   
 		}
