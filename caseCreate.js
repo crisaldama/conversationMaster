@@ -24,6 +24,10 @@ module.exports = {
 		    }
 		    console.log("Got  Postgres connection");
 		    sharedPgClient = client;
+		    /* Error handling*/
+		    sharedPgClient.on('error', function(error) {
+      			console.log(error);
+    		});    
 		});
 
 		if (sharedPgClient) {
@@ -33,9 +37,7 @@ module.exports = {
 			sharedPgClient.query('INSERT INTO case(Subject, createdDate, AccountID) values($1, $2, $3)',
 		    [dataToInsert.subject, dataToInsert.createdDate, dataToInsert.accountID]);
 
-		    sharedPgClient.on('error', function(error) {
-      			console.log(error);
-    		});    
+		    
 
 		    console.log("Releasing Postgres connection");
 		    done();
