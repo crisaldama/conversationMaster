@@ -51,7 +51,7 @@ module.exports = {
 			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail) values($1, $2, $3, $4, $5)',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID], dataToInsert.OwnerID, dataToInsert.ContactEmail);
+		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail]);
 			queryCount++;
 			query.on('error', function(err) {
     				console.log("Error inserting data" + err.stack);
