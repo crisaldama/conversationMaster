@@ -13,7 +13,7 @@ module.exports = {
 		*/
 		pg.defaults.ssl = true;
 
-		var dbString = process.env.DATABASE_URL+"kk";
+		var dbString = process.env.DATABASE_URL+"kkk";
 
 		console.log ("DBSTRING is " + dbString);
 		var sharedPgClient = new pg.Client(dbString);
