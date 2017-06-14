@@ -39,17 +39,19 @@ module.exports = {
 		if (sharedPgClient) {
 			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
 							createdDate: new Date(),
-							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
+							AccountID: process.env.SFORCE_CASE_ACCOUNTID,
+							OwnerID: process.env.SFORCE_CASE_OWNERID,
+							ContactEmail: process.env.SFORCE_CASE_CONTACT_EMAIL};
 		  	
 
 		  	console.log("Inserting new case with data: (" + dataToInsert.subject + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
-		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID + ")");
+		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail) values($1, $2, $3, $4, $5)',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID]);
+		    	dataToInsert.AccountID], dataToInsert.OwnerID, dataToInsert.ContactEmail);
 			queryCount++;
 			query.on('error', function(err) {
     				console.log("Error inserting data" + err.stack);
