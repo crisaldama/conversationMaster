@@ -15,7 +15,7 @@ module.exports = {
 
 		var dbString = process.env.DATABASE_URL || 'postgres://localhost:5432/salesforce';
 
-		console.log ("DBSTRING is" + dbString);
+		console.log ("DBSTRING is " + dbString);
 		var sharedPgClient = new pg.Client(dbString);
     	sharedPgClient.on('error', function(error) {
       			console.log(error);
@@ -42,22 +42,26 @@ module.exports = {
 		  	console.log(dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(), dataToInsert.AccountID);
 			
-			sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
+			var queryCount = 0;
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID], function(err, res) {
-		    	if (err) {
+		    	dataToInsert.AccountID]);
+			queryCount++;
+			query.on('error', function(err) {
     				console.log("Error inserting data" + err.stack);
-  				} else {
-    				console.log("Successful insert for " + res.rows[0] + " rows");
-  				}
-				console.log("Releasing Postgres connection");
-		    	sharedPgClient.end();
 		    });
 
-		    
-
-		    
+		    query.on('end', function(result) {
+          		console.log("Query ended");
+          		queryCount--;
+           		if (result) {
+               		console.log("Added case " + result.rows[0]);
+           		} 
+           		if (queryCount === 0) {
+             		sharedPgClient.end();
+             	}
+        	});   
 		}
 		else {
 			console.log("No connection available, check your db url");
