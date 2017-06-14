@@ -13,7 +13,7 @@ module.exports = {
 		*/
 		pg.defaults.ssl = true;
 
-		var dbString = process.env.DATABASE_URL || 'postgres://localhost:5432/salesforce';
+		var dbString = process.env.DATABASE_URL+"kk";
 
 		console.log ("DBSTRING is " + dbString);
 		var sharedPgClient = new pg.Client(dbString);
@@ -59,7 +59,7 @@ module.exports = {
                		console.log("Added case " + result.rows[0]);
            		} 
            		if (queryCount === 0) {
-             		//sharedPgClient.end();
+             		sharedPgClient.end();
              	}
         	});   
 		}
