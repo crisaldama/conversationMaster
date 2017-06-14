@@ -34,6 +34,7 @@ module.exports = {
 			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
 							createdDate: process.env.SFORCE_CASE_DATE || now(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
+		  	console.log(dataToInsert);
 			sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID) values($1, $2, $3)',
 		    [dataToInsert.subject, dataToInsert.createdDate, dataToInsert.accountID]);
 
