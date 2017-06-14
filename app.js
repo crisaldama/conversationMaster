@@ -24,6 +24,9 @@ const Context = require('./context');
 const Output = require('./output');
 const Input = require('./input');
 const Cloudant = require('./cloudant');
+
+const CaseCreate = require("./caseCreate");
+
 var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
@@ -69,10 +72,24 @@ app.post('/api/message', function(req, res) {
     if (err) {
       return res.status(err.code || 500).json(err);
     }
+    console.log(JSON.stringify(data));
+
     console.log(data.output.text);
     data.output.text = JSON.parse(Output.replaceTags(JSON.stringify(
       data.output.text)));
     console.log(data.output.text);
+
+    // before returning value, we check if the intent was to reach an agent
+
+    if (data.intents && data.intents[0]) {
+      var intent = data.intents[0];
+      // We create a case if we are sure the customer wants to talk to an agent or if we do not understand what is going on
+      // To do, forify this code to check all intents, right now checking only first! 
+      if ((intent.confidence > 0.8 && intent.intent === "agent") || intent.confidence < 0.2) {
+        console.log("Creating salesforce case with data" + JSON.stringify(data));
+        CaseCreate.caseCreate(data);
+      }
+    }
     return res.json(Cloudant.updateMessage(payload, data));
   });
 });
