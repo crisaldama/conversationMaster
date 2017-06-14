@@ -13,7 +13,7 @@ module.exports = {
 		*/
 		pg.defaults.ssl = true;
 
-		var dbString = process.env.DATABASE_URL+"kkk";
+		var dbString = process.env.DATABASE_URL;
 
 		console.log ("DBSTRING is " + dbString);
 		var sharedPgClient = new pg.Client(dbString);
@@ -40,6 +40,8 @@ module.exports = {
 			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
 							createdDate: new Date(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID};
+		  	
+
 		  	console.log("Inserting new case with data: (" + dataToInsert.subject + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID + ")");
 			
@@ -52,6 +54,7 @@ module.exports = {
 			query.on('error', function(err) {
     				console.log("Error inserting data" + err.stack);
 		    });
+		    sharedPgClient.query('COMMIT');
 
 		    query.on('end', function(result) {
           		console.log("Query ended");
