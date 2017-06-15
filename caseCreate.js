@@ -59,8 +59,11 @@ module.exports = {
 			         }
 			         else {
 			         	queryCount++;
-			         	//console.log("Added case id is " + JSON.stringify(result));
+			         	console.log("Added case id is " + JSON.stringify(result));
+			         	console.log("Added case id is " + JSON.stringify(result.rows[0]));
+			         	console.log("Added case id is " + result.rows[0].id);
 			         	console.log("Added case id is " + result.rows[0].sfid);
+					}
 					}
 
 
