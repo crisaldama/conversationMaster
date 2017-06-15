@@ -89,7 +89,10 @@ module.exports = {
 				         if (error) {
 				         	console.log("Error retreiving sfid" + error.stack);
 				         }
-				         else {
+				         else if (result) {
+	           				sfid = result.rows[0].sfid;
+	               			console.log("Retreived sfid: " + sfid);
+	           		 
 				         	queryCount++;
 						}
 
@@ -99,23 +102,23 @@ module.exports = {
 					query.on('end', function(result) {
 	          			console.log("Query ended");
 	          			queryCount--;
-	           			if (result) {
-	           				sfid = result.rows[0].sfid;
-	               			console.log("Retreived sfid: " + sfid);
-	           		} 
+	           			
 	           		
 	        	}); 
            		} 
            		if (queryCount === 0) {
              		console.log("queryCount is 0");
              	}
+             	else {
+             		console.log("Pending queries, not good");
+             	}
         	 
 
-			  	console.log("Inserting new transcription chat for case (" + caseId + ")");
+			  	console.log("Inserting new transcription chat for case (" + sfid + ")");
 			  	console.log("Body: ", tbody);
 				queryCount = 0;
 				console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-														' values($1, $2)', caseId, tbody);
+														' values($1, $2)', sfid, tbody);
 				query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
 														' values($1, $2)',
 			    [caseId, tbody], (error, result) => {
