@@ -87,7 +87,7 @@ module.exports = {
                		//Obtain SalesforceID we need for live chat transcript
                		query = sharedPgClient.query('SELECT sfid from Salesforce.case where case.id = $1', caseId, (error, result) => {
 				         if (error) {
-				         	console.log("Error retreiving sfid" + err.stack);
+				         	console.log("Error retreiving sfid" + error.stack);
 				         }
 				         else {
 				         	queryCount++;
@@ -120,7 +120,7 @@ module.exports = {
 														' values($1, $2)',
 			    [caseId, tbody], (error, result) => {
 				         if (error) {
-				         	console.log("Error inserting data" + err.stack);
+				         	console.log("Error inserting data" + error.stack);
 				         }
 				         else {
 				         	queryCount++;
