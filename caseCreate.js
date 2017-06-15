@@ -48,14 +48,22 @@ module.exports = {
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail) values($1, $2, $3, $4, $5) RETURNING ID',
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail)' + 
+													' values($1, $2, $3, $4, $5) RETURNING ID',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail]);
-			queryCount++;
-			query.on('error', function(err) {
-    				console.log("Error inserting data" + err.stack);
-		    });
+		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail], (error, result) => {
+			         if (error) {
+			         	console.log("Error inserting data" + err.stack);
+			         }
+			         else {
+			         	queryCount++;
+			         	console.log("Added case id is " + result.rows[0].Id);
+					}
+
+
+		    	});
+			
 		    sharedPgClient.query('COMMIT');
 
 		    query.on('end', function(result) {
