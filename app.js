@@ -72,8 +72,11 @@ app.post('/api/message', function(req, res) {
     }
   }
 
-  tbody = tbody + " Customer: " + payload.input + "<br>";
-  console.log("tbody is: " + tbody);
+  if (payload.input) {
+    tbody = tbody + " Customer: " + payload.input.text + "<br>";
+    console.log("tbody is: " + tbody);
+  }
+
   // Send the input to the conversation service
   conversation.message(payload, function(err, data) {
     Context.setContextAfterWatson(data);
@@ -85,8 +88,9 @@ app.post('/api/message', function(req, res) {
     console.log(data.output.text);
     data.output.text = JSON.parse(Output.replaceTags(JSON.stringify(
       data.output.text)));
-    console.log(data.output.text);
-
+    //console.log(data.output.text);
+    tbody = tbody + " Watson: " + data.output.text + "<br>";
+  
     // before returning value, we check if the intent was to reach an agent
 
     if (data.intents && data.intents[0]) {
@@ -95,6 +99,8 @@ app.post('/api/message', function(req, res) {
       // To do, forify this code to check all intents, right now checking only first! 
       if ((intent.confidence > 0.8 && intent.intent === "agent") || intent.confidence < 0.2) {
         console.log("Creating salesforce case with data" + JSON.stringify(data));
+        console.log("Creating salesforce case with body" + tbody);
+        
         CaseCreate.caseCreate(data, tbody);
       }
     }
