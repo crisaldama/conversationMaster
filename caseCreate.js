@@ -6,6 +6,7 @@ require('dotenv').config({
 });
 
 var caseId = -1;
+var sfid;
 module.exports = {
   caseCreate: function (data, tbody) {
 	  pg = require("pg");
@@ -83,6 +84,27 @@ module.exports = {
           		queryCount--;
            		if (result) {
                		console.log("Added case id is " + result.rows[0].Id);
+               		//Obtain SalesforceID we need for live chat transcript
+               		query = sharedPgClient.query('SELECT sfid from Salesforce.case where case.id = $1', caseId, (error, result) => {
+				         if (error) {
+				         	console.log("Error retreiving sfid" + err.stack);
+				         }
+				         else {
+				         	queryCount++;
+						}
+
+
+			    	});
+
+					query.on('end', function(result) {
+	          			console.log("Query ended");
+	          			queryCount--;
+	           			if (result) {
+	           				sfid = result.rows[0].sfid;
+	               			console.log("Retreived sfid: " + sfid);
+	           		} 
+	           		
+	        	}); 
            		} 
            		if (queryCount === 0) {
              		console.log("queryCount is 0");
