@@ -87,39 +87,39 @@ module.exports = {
            		if (queryCount === 0) {
              		console.log("queryCount is 0");
              	}
-        	});  
+        	 
 
-		  	console.log("Inserting new transcription chat for case (" + caseId + ")");
-		  	console.log("Body: ", tbody);
-			queryCount = 0;
-			console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-													' values($1, $2)', caseId, tbody);
-			query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-													' values($1, $2)',
-		    [caseId, tbody], (error, result) => {
-			         if (error) {
-			         	console.log("Error inserting data" + err.stack);
-			         }
-			         else {
-			         	queryCount++;
-					}
+			  	console.log("Inserting new transcription chat for case (" + caseId + ")");
+			  	console.log("Body: ", tbody);
+				queryCount = 0;
+				console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
+														' values($1, $2)', caseId, tbody);
+				query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
+														' values($1, $2)',
+			    [caseId, tbody], (error, result) => {
+				         if (error) {
+				         	console.log("Error inserting data" + err.stack);
+				         }
+				         else {
+				         	queryCount++;
+						}
 
 
-		    	});
-			
-		    sharedPgClient.query('COMMIT');
+			    	});
+				
+			    sharedPgClient.query('COMMIT');
 
-		    query.on('end', function(result) {
-          		console.log("Query ended");
-          		queryCount--;
-           		if (result) {
-               		console.log("Added livechattranscript");
-           		} 
-           		if (queryCount === 0) {
-             		sharedPgClient.end();
-             	}
-        	}); 
-
+			    query.on('end', function(result) {
+	          		console.log("Query ended");
+	          		queryCount--;
+	           		if (result) {
+	               		console.log("Added livechattranscript");
+	           		} 
+	           		if (queryCount === 0) {
+	             		sharedPgClient.end();
+	             	}
+	        	}); 
+		});
 
 		}
 		else {
