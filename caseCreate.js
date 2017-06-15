@@ -41,24 +41,25 @@ module.exports = {
 							createdDate: new Date(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID,
 							OwnerID: process.env.SFORCE_CASE_OWNERID,
-							ContactEmail: process.env.SFORCE_CASE_CONTACT_EMAIL};
+							ContactEmail: process.env.SFORCE_CASE_CONTACT_EMAIL,
+							ContactID: process.env.SFORCE_CASE_CONTACT_ID};
 		  	
 
 		  	console.log("Inserting new case with data: (" + dataToInsert.subject + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail)' + 
-													' values($1, $2, $3, $4, $5) RETURNING ID',
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail, ContactID)' + 
+													' values($1, $2, $3, $4, $5, $6) RETURNING ID',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail], (error, result) => {
+		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail, dataToInsert.ContactID], (error, result) => {
 			         if (error) {
 			         	console.log("Error inserting data" + err.stack);
 			         }
 			         else {
 			         	queryCount++;
-			         	console.log("Added case id is " + result.rows[0].Id);
+			         	console.log("Added case id is " + result.rows[0]);
 					}
 
 
