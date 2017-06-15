@@ -84,6 +84,7 @@ module.exports = {
           		queryCount--;
            		if (result) {
                		//Obtain SalesforceID we need for live chat transcript
+               		console.log("SELECT sfid from Salesforce.case where Salesforce.case.id =" + caseId);
                		query = sharedPgClient.query('SELECT sfid from Salesforce.case where Salesforce.case.id =' + caseId, (error, result) => {
 				         if (error) {
 				         	console.log("Error retreiving sfid" + error.stack);
