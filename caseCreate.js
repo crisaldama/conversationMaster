@@ -28,7 +28,7 @@ module.exports = {
 		//         console.error("PG Connection Error:" + err)
 		//         return;
 		//     }
-		//     console.log("Got  Postgres connection");
+		//     console.log ("Got  Postgres connection");
 		//     sharedPgClient = client;
 		//     /* Error handling*/
 		//     sharedPgClient.on('error', function(error) {
@@ -48,7 +48,7 @@ module.exports = {
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail) values($1, $2, $3, $4, $5)',
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail) values($1, $2, $3, $4, $5) RETURNING ID',
 		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
 		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail]);
@@ -67,7 +67,9 @@ module.exports = {
            		if (queryCount === 0) {
              		sharedPgClient.end();
              	}
-        	});   
+        	});  
+
+
 		}
 		else {
 			console.log("No connection available, check your db url");
