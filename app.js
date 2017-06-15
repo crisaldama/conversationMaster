@@ -72,7 +72,7 @@ app.post('/api/message', function(req, res) {
     }
   }
 
-  if (payload.input) {
+  if (payload.input.text != "undefined") {
     tbody = tbody + " Customer: " + payload.input.text + "<br>";
     console.log("tbody is: " + tbody);
   }
