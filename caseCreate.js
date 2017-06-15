@@ -37,7 +37,8 @@ module.exports = {
 		// });
 
 		if (sharedPgClient) {
-			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT, 
+			const dataToInsert = {subject: process.env.SFORCE_CASE_SUBJECT,
+							priority: process.env.SFORCE_CASE_PRIO, 
 							createdDate: new Date(),
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID,
 							OwnerID: process.env.SFORCE_CASE_OWNERID,
@@ -49,11 +50,16 @@ module.exports = {
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, createdDate, AccountID, OwnerID, ContactEmail, ContactID)' + 
-													' values($1, $2, $3, $4, $5, $6) RETURNING ID',
-		    [dataToInsert.subject, dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
-		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
-		    	dataToInsert.AccountID, dataToInsert.OwnerID, dataToInsert.ContactEmail, dataToInsert.ContactID], (error, result) => {
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, priority, createdDate, AccountID, OwnerID, ContactEmail, ContactID)' + 
+													' values($1, $2, $3, $4, $5, $6, $7) RETURNING ID',
+		    [dataToInsert.subject, 
+		    	dataToInsert.priority,
+		    	dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
+		    		+ dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds(),
+		    	dataToInsert.AccountID, 
+		    	dataToInsert.OwnerID, 
+		    	dataToInsert.ContactEmail, 
+		    	dataToInsert.ContactID], (error, result) => {
 			         if (error) {
 			         	console.log("Error inserting data" + err.stack);
 			         }
