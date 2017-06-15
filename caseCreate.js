@@ -62,7 +62,7 @@ module.exports = {
           		console.log("Query ended");
           		queryCount--;
            		if (result) {
-               		console.log("Added case " + result.rows[0]);
+               		console.log("Added case id is " + result.rows[0].Id);
            		} 
            		if (queryCount === 0) {
              		sharedPgClient.end();
