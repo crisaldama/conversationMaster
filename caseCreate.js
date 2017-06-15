@@ -121,7 +121,7 @@ module.exports = {
 																' values($1, $2)', sfid, tbody);
 						query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
 																' values($1, $2)',
-					    [caseId, tbody], (error, result) => {
+					    [sfid, tbody], (error, result) => {
 						         if (error) {
 						         	console.log("Error inserting data" + error.stack);
 						         }
