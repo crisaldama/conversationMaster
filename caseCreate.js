@@ -82,7 +82,7 @@ module.exports = {
 		    query.on('end', function(result) {
           		console.log("CASE Query ended");
           		// need to wait until heroku connect synchs and brings back sfid. Very bad programming technique, but hey, this is a demo
-          		sleep.sleep(10);
+          		sleep.sleep(5);
           		queryCount--;
            		if (result) {
                		//Obtain SalesforceID we need for live chat transcript
@@ -119,9 +119,9 @@ module.exports = {
 						queryCount = 0;
 						console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
 																' values($1, $2)', sfid, tbody);
-						query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-																' values($1, $2)',
-					    [sfid, tbody], (error, result) => {
+						query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(livechatvisitorid,caseId, body)' + 
+																' values($1, $2, $3)',
+					    [process.env.SFORCE_LCHAT_VISITOR_ID, sfid, tbody], (error, result) => {
 						         if (error) {
 						         	console.log("Error inserting data" + error.stack);
 						         }
