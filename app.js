@@ -27,6 +27,10 @@ const Cloudant = require('./cloudant');
 
 const CaseCreate = require("./caseCreate");
 
+// To hold transcription of conversation
+var tbody = "<p align=\"center\">Chat Started: " + Date.now() + "</p><p align=\"center\">Chat Origin: Facebook</p><p align=\"center\">Agent Watson</p>"; 
+
+
 var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
@@ -60,12 +64,16 @@ app.post('/api/message', function(req, res) {
     if (req.body.input) {
       payload.input = JSON.parse(Input.replaceTagsUserInput(JSON.stringify(
         req.body.input)));
+
     }
     if (req.body.context) {
       payload.context = Context.setContextToWatson(JSON.parse(JSON.stringify(
         req.body.context)), payload.input);
     }
   }
+
+  tbody = tbody + " Customer: " + payload.input + "<br>";
+  console.log("tbody is: " + tbody);
   // Send the input to the conversation service
   conversation.message(payload, function(err, data) {
     Context.setContextAfterWatson(data);
@@ -87,7 +95,7 @@ app.post('/api/message', function(req, res) {
       // To do, forify this code to check all intents, right now checking only first! 
       if ((intent.confidence > 0.8 && intent.intent === "agent") || intent.confidence < 0.2) {
         console.log("Creating salesforce case with data" + JSON.stringify(data));
-        CaseCreate.caseCreate(data);
+        CaseCreate.caseCreate(data, tbody);
       }
     }
     return res.json(Cloudant.updateMessage(payload, data));

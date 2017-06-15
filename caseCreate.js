@@ -5,8 +5,9 @@ require('dotenv').config({
   silent: true
 });
 
+var caseId = -1;
 module.exports = {
-  caseCreate: function (data) {
+  caseCreate: function (data, tbody) {
 	  pg = require("pg");
 		/*
 		* PG Client connection
@@ -68,6 +69,7 @@ module.exports = {
 			         	console.log("Added case result is " + JSON.stringify(result));
 			         	console.log("Added case row[0] is " + JSON.stringify(result.rows[0]));
 			         	console.log("Added case id is " + result.rows[0].id);
+			         	caseId = result.rows[0].id;
 			         	console.log("Added case sfid is " + result.rows[0].sfid);
 					}
 
@@ -83,9 +85,38 @@ module.exports = {
                		console.log("Added case id is " + result.rows[0].Id);
            		} 
            		if (queryCount === 0) {
-             		sharedPgClient.end();
+             		console.log("queryCount is 0");
              	}
         	});  
+
+		  	console.log("Inserting new transcription chat for case (" + caseId + ")");
+		  	console.log("Body: ", tbody);
+			queryCount = 0;
+			query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
+													' values($1, $2)',
+		    [caseId, tbody], (error, result) => {
+			         if (error) {
+			         	console.log("Error inserting data" + err.stack);
+			         }
+			         else {
+			         	queryCount++;
+					}
+
+
+		    	});
+			
+		    sharedPgClient.query('COMMIT');
+
+		    query.on('end', function(result) {
+          		console.log("Query ended");
+          		queryCount--;
+           		if (result) {
+               		console.log("Added livechattranscript");
+           		} 
+           		if (queryCount === 0) {
+             		sharedPgClient.end();
+             	}
+        	}); 
 
 
 		}
