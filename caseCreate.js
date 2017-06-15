@@ -4,7 +4,7 @@
 require('dotenv').config({
   silent: true
 });
-
+var sleep = require('sleep');
 var caseId = -1;
 var sfid;
 module.exports = {
@@ -81,6 +81,8 @@ module.exports = {
 
 		    query.on('end', function(result) {
           		console.log("CASE Query ended");
+          		// need to wait until heroku connect synchs and brings back sfid. Very bad programming technique, but hey, this is a demo
+          		sleep.sleep(10);
           		queryCount--;
            		if (result) {
                		//Obtain SalesforceID we need for live chat transcript
