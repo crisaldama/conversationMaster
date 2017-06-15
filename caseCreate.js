@@ -80,7 +80,7 @@ module.exports = {
 		    sharedPgClient.query('COMMIT');
 
 		    query.on('end', function(result) {
-          		console.log("Query ended");
+          		console.log("CASE Query ended");
           		queryCount--;
            		if (result) {
                		//Obtain SalesforceID we need for live chat transcript
@@ -101,50 +101,51 @@ module.exports = {
 			    	});
 
 					query.on('end', function(result) {
-	          			console.log("Query ended");
+	          			console.log("SFID Query ended");
 	          			queryCount--;
+	          			if (queryCount === 0) {
+		             		console.log("queryCount is 0");
+		             	}
+		             	else {
+		             		console.log("Pending queries, not good");
+		             	}
+		        	 
+
+					  	console.log("Inserting new transcription chat for case (" + sfid + ")");
+					  	console.log("Body: ", tbody);
+						queryCount = 0;
+						console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
+																' values($1, $2)', sfid, tbody);
+						query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
+																' values($1, $2)',
+					    [caseId, tbody], (error, result) => {
+						         if (error) {
+						         	console.log("Error inserting data" + error.stack);
+						         }
+						         else {
+						         	queryCount++;
+								}
+
+
+					    	});
+						
+					    sharedPgClient.query('COMMIT');
+
+					    query.on('end', function(result) {
+			          		console.log("LCHAT Query ended");
+			          		queryCount--;
+			           		if (result) {
+			               		console.log("Added livechattranscript");
+			           		} 
+			           		if (queryCount === 0) {
+			             		sharedPgClient.end();
+			             	}
+			        	}); 
 	           			
 	           		
 	        	}); 
            		} 
-           		if (queryCount === 0) {
-             		console.log("queryCount is 0");
-             	}
-             	else {
-             		console.log("Pending queries, not good");
-             	}
-        	 
-
-			  	console.log("Inserting new transcription chat for case (" + sfid + ")");
-			  	console.log("Body: ", tbody);
-				queryCount = 0;
-				console.log('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-														' values($1, $2)', sfid, tbody);
-				query = sharedPgClient.query('INSERT INTO Salesforce.livechattranscript(caseId, body)' + 
-														' values($1, $2)',
-			    [caseId, tbody], (error, result) => {
-				         if (error) {
-				         	console.log("Error inserting data" + error.stack);
-				         }
-				         else {
-				         	queryCount++;
-						}
-
-
-			    	});
-				
-			    sharedPgClient.query('COMMIT');
-
-			    query.on('end', function(result) {
-	          		console.log("Query ended");
-	          		queryCount--;
-	           		if (result) {
-	               		console.log("Added livechattranscript");
-	           		} 
-	           		if (queryCount === 0) {
-	             		sharedPgClient.end();
-	             	}
-	        	}); 
+           		
 		});
 
 		}
