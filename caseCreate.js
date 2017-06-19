@@ -45,15 +45,17 @@ module.exports = {
 							AccountID: process.env.SFORCE_CASE_ACCOUNTID,
 							OwnerID: process.env.SFORCE_CASE_OWNERID,
 							ContactEmail: process.env.SFORCE_CASE_CONTACT_EMAIL,
-							ContactID: process.env.SFORCE_CASE_CONTACT_ID};
+							ContactID: process.env.SFORCE_CASE_CONTACT_ID,
+							Intent: process.env.SFORCE_CASE_INTENT,
+							};
 		  	
 
 		  	console.log("Inserting new case with data: (" + dataToInsert.subject + ", " + dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
 		    + dataToInsert.createdDate.getHours() + ":" + dataToInsert.createdDate.getMinutes() + ":" + dataToInsert.createdDate.getSeconds() + ", " + dataToInsert.AccountID +  ", " + dataToInsert.OwnerID + ", " + dataToInsert.ContactEmail+ ")");
 			
 			var queryCount = 0;
-			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, priority, createdDate, AccountID, OwnerID, ContactEmail, ContactID)' + 
-													' values($1, $2, $3, $4, $5, $6, $7) RETURNING ID',
+			var query = sharedPgClient.query('INSERT INTO Salesforce.case(Subject, priority, createdDate, AccountID, OwnerID, ContactEmail, ContactID, Main_Intent__C)' + 
+													' values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ID',
 		    [dataToInsert.subject, 
 		    	dataToInsert.priority,
 		    	dataToInsert.createdDate.getMonth() + "/" + dataToInsert.createdDate.getDay() + "/" + dataToInsert.createdDate.getFullYear() + " " 
@@ -61,7 +63,8 @@ module.exports = {
 		    	dataToInsert.AccountID, 
 		    	dataToInsert.OwnerID, 
 		    	dataToInsert.ContactEmail, 
-		    	dataToInsert.ContactID], (error, result) => {
+		    	dataToInsert.ContactID], 
+		    	dataToInsert.Intent, (error, result) => {
 			         if (error) {
 			         	console.log("Error inserting data" + err.stack);
 			         }
