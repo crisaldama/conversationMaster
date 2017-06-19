@@ -63,8 +63,8 @@ module.exports = {
 		    	dataToInsert.AccountID, 
 		    	dataToInsert.OwnerID, 
 		    	dataToInsert.ContactEmail, 
-		    	dataToInsert.ContactID], 
-		    	dataToInsert.Intent, (error, result) => {
+		    	dataToInsert.ContactID,
+		    	dataToInsert.Intent], (error, result) => {
 			         if (error) {
 			         	console.log("Error inserting data" + err.stack);
 			         }
