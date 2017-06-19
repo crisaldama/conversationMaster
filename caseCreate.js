@@ -82,7 +82,7 @@ module.exports = {
 		    query.on('end', function(result) {
           		console.log("CASE Query ended");
           		// need to wait until heroku connect synchs and brings back sfid. Very bad programming technique, but hey, this is a demo
-          		sleep.sleep(10);
+          		sleep.sleep(15);
           		queryCount--;
            		if (result) {
                		//Obtain SalesforceID we need for live chat transcript
