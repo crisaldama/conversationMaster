@@ -82,7 +82,7 @@ module.exports = {
 		    query.on('end', function(result) {
           		console.log("CASE Query ended");
           		// need to wait until heroku connect synchs and brings back sfid. Very bad programming technique, but hey, this is a demo
-          		var sleepTime = process.env.SFORCE_INSERT_DEFAULT_WAIT || 30
+          		var sleepTime = parseInt(process.env.SFORCE_INSERT_DEFAULT_WAIT ) || 30;
           		sleep.sleep(sleepTime);
           		queryCount--;
            		if (result) {
