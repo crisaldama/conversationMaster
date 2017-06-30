@@ -1,9 +1,10 @@
 {
-  "name": "wconversationmaster",
-  "version": "0.2.0",
+  "name": "web-speech-api-demo",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "async": "^2.1.2",
@@ -22,13 +23,17 @@
     "vcap_services": "^0.2.0",
     "watson-developer-cloud": "^2.6.2"
   },
-  "repository": {},
+  "repository": {"type":"git","url":"git+https://github.com/MiuLab/web-speech-api-demo.git"},
   "engines": {
     "node": "4.x"
   },
-  "description": "The Node.js Starter demonstrates a simple, reusable Node.js web application based on the Express framework.",
-  "main": "server.js",
-  "devDependencies": {},
+  "description": "Web Speech API demo",
+  "main": "speechRecognition.js",
+  "devDependencies": {"express":"^4.15.2"},
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiuLab/web-speech-api-demo/issues"
+  },
+  "homepage": "https://github.com/MiuLab/web-speech-api-demo#readme"
 }
