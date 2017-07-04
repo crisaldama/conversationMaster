@@ -22,6 +22,12 @@ var Api = (function() {
     },
     setResponsePayload: function(newPayloadStr) {
       responsePayload = JSON.parse(newPayloadStr);
+      console.log("payload de vuelta:");
+      console.log(newPayloadStr);
+
+      console.log("solo el texto");
+      console.log(responsePayload.output.text);
+      speak(responsePayload.output.text);
     }
   };
 
@@ -52,6 +58,8 @@ var Api = (function() {
     http.onreadystatechange = function() {
       if (http.readyState === 4 && http.status === 200 && http.responseText) {
         Api.setResponsePayload(http.responseText);
+        console.log("Respuesta http.responseText");
+        console.log(http.responseText);
       }
     };
 

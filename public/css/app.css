@@ -275,6 +275,15 @@ input:-moz-placeholder {
   background: #383D3E;
 }
 
+#div_start {
+    float: right;
+}
+#start_button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
 .hide {
   display: none;
 }

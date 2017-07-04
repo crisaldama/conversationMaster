@@ -3,6 +3,27 @@
 /* eslint no-unused-vars: "off" */
 /* global Api: true, Common: true*/
 
+  // Handles the submission of input
+function submitInput(inputBox){
+  if ( inputBox.value) {
+    console.log('Dentro del submitInput');
+    console.log(inputBox.value);
+    // Retrieve the context from the previous server response
+    var context;
+    var latestResponse = Api.getResponsePayload();
+    if (latestResponse) {
+      context = latestResponse.context;
+    }
+    console.log("el ultimo context");
+    console.log(latestResponse);
+    // Send the user message
+    Api.sendRequest(inputBox.value, context);
+
+    // Clear input box for further messages
+    inputBox.value = '';
+    Common.fireEvent(inputBox, 'input');
+  }
+}
 var ConversationPanel = (function() {
   var settings = {
     selectors: {
@@ -206,10 +227,16 @@ var ConversationPanel = (function() {
     }
   }
 
-  // Handles the submission of input
+
   function inputKeyDown(event, inputBox) {
     // Submit on enter key, dis-allowing blank messages
-    if (event.keyCode === 13 && inputBox.value) {
+    if (event.keyCode === 13 ) {
+      submitInput(inputBox);
+    }
+  }
+  function RecognisedText(inputBox) {
+    // Submit on enter key, dis-allowing blank messages
+    if (inputBox.value) {
       // Retrieve the context from the previous server response
       var context;
       var latestResponse = Api.getResponsePayload();
