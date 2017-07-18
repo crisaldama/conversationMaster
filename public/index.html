@@ -9,11 +9,15 @@
   <meta property="og:description" content="Sample application that shows how to use the Conversation API to identify user intents" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/app.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type='text/javascript' src='/js/jq.einstein.chat.js'></script>
 </head>
 <body>
+  
   <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)">
     <img class="option full" src="img/Chat Button.png">
     <img class="option not-full" src="img/Code Button.png">
+    <button id="liveagent_button_online_573f4000000TUo2" style="display: true;" onclick="startLiveAgentChatSession()">Init Session chat</button>
   </div>
   <div id="contentParent" class="responsive-columns-wrapper">
     <div id="chat-column-holder" class="responsive-column content-column">

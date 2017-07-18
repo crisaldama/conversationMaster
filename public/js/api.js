@@ -28,6 +28,20 @@ var Api = (function() {
       console.log("solo el texto");
       console.log(responsePayload.output.text);
       speak(responsePayload.output.text);
+      if (responsePayload.intents[0]){
+        console.log(responsePayload.intents[0].intent);
+        if(responsePayload.intents[0].intent==="Agent"){
+          CallAgent=true;
+          console.log("llamar a agente");
+        }
+      };
+      if (responsePayload.context){
+        console.log(responsePayload.context);
+        if(responsePayload.context.switch){
+          CallAgent=true;
+          console.log("llamar a agentewatsonOrquestardo");
+        }
+      }
     }
   };
 

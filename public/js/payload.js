@@ -2,7 +2,7 @@
 // all display and behaviors of the conversation column of the app.
 /* eslint no-unused-vars: "off" */
 /* global Api: true, Common: true, PayloadPanel: true*/
-
+var CallAgent=false;
 var PayloadPanel = (function() {
   var settings = {
     selectors: {
@@ -98,13 +98,14 @@ var PayloadPanel = (function() {
   function buildPayloadDomElement(isRequest) {
     var payloadPrettyString = jsonPrettyPrint(isRequest
             ? Api.getRequestPayload() : Api.getResponsePayload());
-
+    
+    
     var payloadJson = {
       'tagName': 'div',
       'children': [{
         // <div class='header-text'>
         'tagName': 'div',
-        'text': isRequest ? 'Entrée utilisateur' : 'Watson comprend',
+        'text': isRequest ? 'Entrada Usuario' : 'Watson entiende',
         'classNames': ['header-text']
       }, {
         // <div class='code-line responsive-columns-wrapper'>
@@ -123,6 +124,10 @@ var PayloadPanel = (function() {
         }]
       }]
     };
+    console.log("comprobación agente");
+    if (CallAgent){
+      startLiveAgentChatSession();
+    }
 
     return Common.buildDomElement(payloadJson);
   }

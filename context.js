@@ -6,6 +6,13 @@ const varsToUpdateBeforeWatson = {
       return new_context[key]_value;
     }
   }*/
+  channel: {
+    value: "voz", //Set a particular value on every call, set to false to ignore this field.
+    forceIfUndefined: true, //If the context variable does not exist yet, tells if it should be created
+    function: function(answerText, context, key) { //Different sets of actions depending on the answerText, can access the whole context, must not update context. @return the new context[key] value.
+      return "voz";
+    }
+  }
 };
 const varsToUpdateAfterWatson = {
   noCommande: {

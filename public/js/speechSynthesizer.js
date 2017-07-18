@@ -3,14 +3,15 @@ const synthesis = window.speechSynthesis;
 
 function speak(TextToSpeech){
   const utter = new SpeechSynthesisUtterance(TextToSpeech);
+      console.log("el sintetizador es: "+TextToSpeech);
   // the list of all available voices
   const voices = synthesis.getVoices();
   
   for(i = 0; i < voices.length; ++i) {
-    //if(voices[i].name === "Google Español") {
-    if(voices[i].lang === "es-ES") {  
+    if(voices[i].name === "Monica") {
+    //if(voices[i].lang === "es-ES") {  
       utter.voice = voices[i];
-      console.log(voices[i].name);
+      console.log("la voz es: "+voices[i].name);
     }
   }
   
